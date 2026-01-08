@@ -23,14 +23,10 @@ jobs:
         dotnet-version: '8.0.x'
 
     - name: Restore dependencies
-      run: |
-        dotnet restore HelloWorld.csproj
-        dotnet restore Tests/Tests.csproj
+      run: dotnet restore HelloWorld.sln
 
     - name: Build
-      run: |
-        dotnet build HelloWorld.csproj --no-restore
-        dotnet build Tests/Tests.csproj --no-restore
+      run: dotnet build HelloWorld.sln --no-restore
 
     - name: Test
-      run: dotnet test Tests/Tests.csproj --no-build --verbosity normal
+      run: dotnet test HelloWorld.sln --no-build --verbosity normal
