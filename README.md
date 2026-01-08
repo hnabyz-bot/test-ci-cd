@@ -1,5 +1,10 @@
 # GitHub CI/CD 테스트 프로젝트
 
+[![Python CI](https://github.com/hnabyz-bot/test-ci-cd/actions/workflows/python-ci.yml/badge.svg)](https://github.com/hnabyz-bot/test-ci-cd/actions/workflows/python-ci.yml)
+[![C CI](https://github.com/hnabyz-bot/test-ci-cd/actions/workflows/c-ci.yml/badge.svg)](https://github.com/hnabyz-bot/test-ci-cd/actions/workflows/c-ci.yml)
+[![C++ CI](https://github.com/hnabyz-bot/test-ci-cd/actions/workflows/cpp-ci.yml/badge.svg)](https://github.com/hnabyz-bot/test-ci-cd/actions/workflows/cpp-ci.yml)
+[![C# CI](https://github.com/hnabyz-bot/test-ci-cd/actions/workflows/csharp-ci.yml/badge.svg)](https://github.com/hnabyz-bot/test-ci-cd/actions/workflows/csharp-ci.yml)
+
 이 프로젝트는 GitHub의 CI/CD 기능을 테스트하기 위해 생성되었습니다.
 
 ## 프로젝트 구조
