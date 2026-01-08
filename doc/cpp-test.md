@@ -1,30 +1,50 @@
-# C++ 테스트 기록
+# C++ CI/CD 학습 가이드
 
-이 문서는 C++ 프로젝트의 CI/CD 테스트 진행 상황을 기록합니다.
+## 프로젝트 구조
+
+```
+source/cpp/
+├── main.cpp          # 메인 소스 코드
+├── CMakeLists.txt    # CMake 빌드 설정
+└── test/             # 테스트 코드
+    └── main_test.cpp
+```
 
 ## 테스트 환경
 
-- 컴파일러: `g++`/`clang++`/`MSVC`
-- 빌드 시스템: `CMake`/`Make`/`MSBuild`
-- 운영체제: `Windows/Linux/macOS`
+- 컴파일러: `g++`
+- 빌드 시스템: `CMake`
+- CI 환경: `ubuntu-latest`
 
-## 테스트 명령어
+## GitHub Actions 워크플로우
 
-```shell
-# 예시 (CMake)
-mkdir build
+### 워크플로우 단계
+
+1. **Configure CMake**: 빌드 디렉토리 설정
+2. **Build**: cmake --build 실행
+3. **Test**: ctest 실행
+
+### 주요 설정
+
+```yaml
+working-directory: source/cpp
+runs-on: ubuntu-latest
+```
+
+## 로컬 테스트 방법
+
+```bash
+cd source/cpp
+cmake -B build
+cmake --build build --config Release
 cd build
-cmake ..
-make
 ctest
 ```
 
-## 테스트 결과
+## CI/CD 테스트 결과
 
-### [날짜] - [테스트 내용]
+### 2026-01-08 - 초기 설정 및 성공
 
-- **결과**: 성공/실패
-- **로그**:
-  ```
-  (테스트 결과 로그)
-  ```
+- **결과**: ✅ 성공
+- **빌드**: CMake 설정 및 빌드 성공
+- **테스트**: ctest 실행 성공

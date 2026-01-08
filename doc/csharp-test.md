@@ -103,6 +103,56 @@ dotnet test Tests/Tests.csproj --verbosity detailed
 # 패키지 버전이 존재하는지 확인
 ```
 
+## 실제 발생한 문제 및 해결 사례
+
+### 사례 1: Tests 폴더가 메인 프로젝트에 포함되어 컴파일 오류 발생
+
+**문제**:
+```
+error CS0246: The type or namespace name 'FactAttribute' could not be found
+```
+
+**원인**: .NET SDK 프로젝트는 기본적으로 프로젝트 폴더의 모든 `.cs` 파일을 자동으로 포함합니다. Tests 폴더의 테스트 코드가 메인 프로젝트에 포함되어, xUnit 패키지가 없는 상태에서 `[Fact]` 특성을 인식하지 못했습니다.
+
+**해결**:
+HelloWorld.csproj에 Tests 폴더 제외 설정 추가:
+```xml
+<ItemGroup>
+  <Compile Remove="Tests/**" />
+</ItemGroup>
+```
+
+### 사례 2: xUnit using 문 누락
+
+**문제**:
+```
+error CS0246: The type or namespace name 'Fact' could not be found
+```
+
+**원인**: GreeterTests.cs 파일에 `using Xunit;` 선언이 누락되어 xUnit의 `[Fact]` 특성을 인식하지 못했습니다.
+
+**해결**:
+GreeterTests.cs 파일 상단에 추가:
+```csharp
+using Xunit;
+```
+
+### 사례 3: CI/CD 최종 성공 (2026-01-08)
+
+**상태**: ✅ 성공
+
+**워크플로우 단계**:
+1. Setup .NET 8.0 - 성공
+2. Restore dependencies - 성공
+3. Build HelloWorld.csproj - 성공
+4. Build Tests/Tests.csproj - 성공
+5. Test - 성공 (2개 테스트 통과)
+
+**교훈**:
+- 로컬에서 먼저 테스트 후 푸시할 것
+- .NET 프로젝트 구조와 자동 파일 포함 규칙 이해 필요
+- using 문은 필수
+
 ## 추가 학습 자료
 
 - [.NET 공식 문서](https://docs.microsoft.com/dotnet/)
