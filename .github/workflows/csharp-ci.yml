@@ -1,0 +1,35 @@
+name: C# CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: '8.0.x'
+
+    - name: Restore dependencies
+      working-directory: source/csharp
+      run: |
+        dotnet restore HelloWorld.csproj
+        dotnet restore Tests/Tests.csproj
+
+    - name: Build
+      working-directory: source/csharp
+      run: |
+        dotnet build HelloWorld.csproj --no-restore
+        dotnet build Tests/Tests.csproj --no-restore
+
+    - name: Test
+      working-directory: source/csharp
+      run: dotnet test Tests/Tests.csproj --no-build --verbosity normal
