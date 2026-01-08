@@ -28,7 +28,9 @@ jobs:
         dotnet restore Tests/Tests.csproj
 
     - name: Build
-      run: dotnet build --no-restore
+      run: |
+        dotnet build HelloWorld.csproj --no-restore
+        dotnet build Tests/Tests.csproj --no-restore
 
     - name: Test
       run: dotnet test Tests/Tests.csproj --no-build --verbosity normal
