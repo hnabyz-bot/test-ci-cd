@@ -1,0 +1,38 @@
+# .github/workflows/issue-creator.yml
+name: Create GitHub Issue
+
+on:
+  workflow_dispatch:
+    inputs:
+      issue_title:
+        description: 'Title for the new issue'
+        required: true
+        default: 'Automated Issue from CI/CD'
+      issue_body:
+        description: 'Body for the new issue'
+        required: false
+        default: 'This issue was created automatically by a GitHub Actions workflow.'
+      issue_labels:
+        description: 'Comma-separated labels (e.g., bug, enhancement)'
+        required: false
+        default: 'automated'
+
+jobs:
+  create_issue:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code (optional, but good practice)
+      uses: actions/checkout@v3
+
+    - name: Create Issue
+      env:
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        labels_arg=""
+        if [[ -n "${{ github.event.inputs.issue_labels }}" ]]; then
+          labels_arg="--label ${{ github.event.inputs.issue_labels }}"
+        fi
+        gh issue create \
+          --title "${{ github.event.inputs.issue_title }}" \
+          --body "${{ github.event.inputs.issue_body }}" \
+          $labels_arg
