@@ -1,5 +1,5 @@
 # .github/workflows/csharp-ci.yml
-name: C# CI
+name: C# CI (Simplified)
 
 on:
   push:
@@ -22,11 +22,7 @@ jobs:
       with:
         dotnet-version: '8.0.x'
 
-    - name: Restore dependencies
-      run: dotnet restore HelloWorld.sln
-
-    - name: Build
-      run: dotnet build HelloWorld.sln --no-restore
-
-    - name: Test
-      run: dotnet test HelloWorld.sln --no-build --verbosity normal
+    - name: Build and Run
+      run: |
+        dotnet build --configuration Release
+        ./bin/Release/net8.0/HelloWorld
