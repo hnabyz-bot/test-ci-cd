@@ -1,0 +1,28 @@
+# .github/workflows/cpp-ci.yml
+name: C++ CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: source/cpp
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Configure CMake
+      run: cmake -B ${{github.workspace}}/source/cpp/build
+
+    - name: Build
+      run: cmake --build ${{github.workspace}}/source/cpp/build --config Release
+
+    - name: Test
+      working-directory: ${{github.workspace}}/source/cpp/build
+      run: ctest
